@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+
+    <link rel="stylesheet" href="css/index.css">
+    <script src="./scripts/operacoes.js" defer></script>
+</head>
+<body>
+    
+    <div class="alinhadora">
+
+        <div class="calculadora">
+
+            <div class="resposta">
+                <p id="resultado">50</p>
+            </div>
+            
+            <p id="expressao"></p>
+            
+            <div class="digitos"> 
+                <div class="numeros" id="numeros">
+                    <button id="del-digito">&lt;</button>
+                    <button type="button">9</button>
+                    <button type="button">8</button>
+                    <button type="button">7</button>
+                    <button type="button">6</button>
+                    <button type="button">5</button>
+                    <button type="button">4</button>
+                    <button type="button">3</button>
+                    <button type="button">2</button>
+                    <button type="button">1</button>
+                    <button type="button">0</button>
+                    <button type="button" class="ops">,</button>
+                </div>
+
+                <div class="operacoes">
+                    <button type="button" class="ops">+</button>
+                    <button type="button" class="ops">-</button>
+                    <button type="button" class="ops">*</button>
+                    <button type="button" class="ops">/</button>
+
+                    <button id="igual">=</button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <p id="entradaExp"></p>
+</body>
+</html>
