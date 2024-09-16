@@ -32,6 +32,8 @@
     width: 400px;
     height: 140px;
 
+    overflow-x: scroll;
+
     background-color: rgb(230, 132, 3);
 
     resize: none;
