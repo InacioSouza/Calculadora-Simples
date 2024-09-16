@@ -1,13 +1,12 @@
-exibeExpressao();
-
-
-function exibeExpressao(){
+window.onload = function exibeExpressao(){
     numDigito();
     delBtn();
     operacaoDigito();
+    reset();
     trataVirgula();
-    melhoraExibicao();
 }
+
+
 
 function numDigito(){
     const divNumDigitos = document.getElementById("numeros");
@@ -17,7 +16,7 @@ function numDigito(){
     const exibicao = document.getElementById("expressao");
 
     //Botões numéricos configurados
-    for(let i = 1; i < numBtns.length -1; i ++){
+    for(let i = 1; i < numBtns.length -2; i ++){
         numBtns[i].addEventListener("click", function(){
             exibicao.innerHTML += numBtns[i].innerHTML;
         });
@@ -55,51 +54,52 @@ function operacaoDigito(){
     }
 }
 
-//Ainda preciso garantir que uma vírgula não seja adicionada antes de um operador
+
+function reset(){
+    const reset = document.getElementById("reset");
+    const exibicao = document.getElementById("expressao");
+
+    reset.addEventListener("click", function(){
+        exibicao.innerHTML = "";
+    })
+}
+
 
 function trataVirgula(){
-    const exibicao = document.getElementById("expressao");
     const virgulaBtn = document.getElementById("virgula");
+    const exibicao = document.getElementById("expressao");
 
     virgulaBtn.addEventListener("click", function(){
-        let ultimoDigito = exibicao.innerHTML[exibicao.innerHTML.length -1];
+        let expressao = exibicao.innerHTML;
+        const ultimoDigito = expressao[expressao.length -1];
 
-        if(exibicao.innerHTML == ""){
+        if(expressao == ""){
             return;
-        } else if(ultimoDigito == ","){
+        }else if(ultimoDigito == "," || ultimoDigito == "+" || ultimoDigito == "-" || ultimoDigito == "*" || ultimoDigito == "/"){
             return;
         }
-
-        //Depois de uma vírgula não tem nenhum caracter
-
-        //tenho que descobrir qual é o último operador caso exista
-        const operadores = ["+", "-", "*", "/"];
-
-        let expressao = exibicao.innerHTML;
-        let ultimoOp;
-
+    
+        //Não deixa que um número tenha mais de uma vírgula
+        let ultimoOp = "";
+    
         for(let i = expressao.length -1; i >= 0; i--){
-         
-            //Vou tentar converter para número
+            console.log("entrei no primeiro for")
             if(isNaN(parseInt(expressao[i]))){
-
+    
                 if(expressao[i] != ","){
                     ultimoOp = i;
                     break;
                 }
             }
         }
-
+    
         for(let i = ultimoOp +1; i < expressao.length; i++){
             if(expressao[i] == ","){
                 return;
             }
         }
-
-        exibicao.innerHTML += ","; 
+    
+    
+        exibicao.innerHTML += virgulaBtn.innerHTML; 
     });
-}
-
-function melhoraExibicao(){
-
 }
