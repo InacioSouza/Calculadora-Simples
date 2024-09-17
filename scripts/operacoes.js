@@ -24,6 +24,7 @@ function numDigito(){
     }
 }
 
+
 function delBtn(){
     const del = document.getElementById("del-digito");
     const exibicao = document.getElementById("expressao");
@@ -101,11 +102,11 @@ function trataVirgula(){
                 return;
             }
         }
-    
-    
+       
         exibicao.innerHTML += virgulaBtn.innerHTML; 
     });
 }
+
 
 function realizaOperacao(){
     const exibicao = document.getElementById("expressao");
@@ -123,55 +124,48 @@ function realizaOperacao(){
                 console.log("Não tem nada para calcular!");
                 exibicao.innerHTML = "";
                 return;
-
             }
 
+            //substitui as ',' por '.'
             while(expressao.indexOf(",") != -1){
                 expressao = expressao.replace(",", ".");
             }
 
-            console.log("Expressão depois de substituir a , por . : ", expressao);
+            //Prepara Array da expressão para que os cálculos possam ser realizados
 
             let arrayExp = expressao.split("");
-            console.log(arrayExp);
-
-           
-            let num = ""; // Armazena temporariamente os números
-        
-            // Processa a string para separar números e operadores
+          
+            let num = ""; 
 
             arrayExp.forEach(function (digito) {
 
-                if (!isNaN(digito) || digito === '.') { // Se é número ou ponto decimal
-                    num += digito; // Concatena no número atual
-                } else { // Se é operador
+                if (!isNaN(digito) || digito === '.') { 
+                    num += digito; 
+                } else { 
                     if (num !== '') {
-                        numPreparados.push(parseFloat(num)); // Adiciona o número completo
-                        num = ''; // Reinicia o número
+                        numPreparados.push(parseFloat(num));
+                        num = ''; 
                     }
-                    numPreparados.push(digito); // Adiciona o operador
+                    numPreparados.push(digito); 
                 }
             });
         
             if (num !== '') {
-                numPreparados.push(parseFloat(num)); // Adiciona o último número, se houver
+                numPreparados.push(parseFloat(num)); 
             }
 
-            
-            console.log(numPreparados);
+            //Passa resultado para a saída da calculadora
             
             let result = somaArrayExp(numPreparados);
            
             resultado.innerHTML = result;
         }
-
-        
     });
 }
 
+
 function somaArrayExp(arrayExp){
     let result;
-
 
     while(arrayExp.length != 1){
         let posicao;
@@ -183,7 +177,6 @@ function somaArrayExp(arrayExp){
             arrayExp = refazArrayExp(arrayExp, posicao, result);
             console.log(arrayExp);
         }
-
 
         while(arrayExp.indexOf("/") != -1){
             posicao = arrayExp.indexOf("/");
@@ -209,41 +202,31 @@ function somaArrayExp(arrayExp){
             arrayExp = refazArrayExp(arrayExp, posicao, result);
             console.log(arrayExp);
         }
-
     }
 
     return Math.round(arrayExp[0]);
 }
 
-function refazArrayExp(arrayExp, indiceOp, valor){
-    console.log("Entrei no método de cálculo!");
 
-    let newArray =[];
+function refazArrayExp(arrayExp, indiceOp, valor){
+     let newArray =[];
 
     let indiceInicio = indiceOp -1;
     let indiceFim = indiceOp +1;
 
     for(let i = 0; i < arrayExp.length; i++){
-        console.log("Entrei no for do método de cálculo!");
-        console.log("Array utilizado: ", newArray)
-        console.log("Valor de i = ", i);
 
         if(i == indiceInicio){
-            console.log("i == indiceInicio : ", i);
             newArray.push(valor);
         }
 
         if(i == indiceInicio || i == indiceOp || i == indiceFim){
-            console.log("Entrei no if: ", i);
             continue;
         }
 
-        console.log("Adicionei elemento ao array");
         newArray.push(arrayExp[i]);  
-        console.log("Valor do elemento: ", arrayExp[i],"\n\n\n\n\n\n\n\n\n")
     }
 
     return newArray;
     
 }
-//arrayExp[i] == "+" || arrayExp[i] == "-" || arrayExp[i] == "*" || arrayExp[i] == "/"
