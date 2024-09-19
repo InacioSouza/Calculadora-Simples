@@ -116,7 +116,7 @@ function realizaOperacao(){
     igual.addEventListener("click", function(){
         let expressao = exibicao.innerHTML;
 
-        let numPreparados = [];
+        
         
         if(expressao != "" ){
 
@@ -126,41 +126,49 @@ function realizaOperacao(){
                 return;
             }
 
-            //substitui as ',' por '.'
-            while(expressao.indexOf(",") != -1){
-                expressao = expressao.replace(",", ".");
-            }
-
-            //Prepara Array da expressão para que os cálculos possam ser realizados
-
-            let arrayExp = expressao.split("");
-          
-            let num = ""; 
-
-            arrayExp.forEach(function (digito) {
-
-                if (!isNaN(digito) || digito === '.') { 
-                    num += digito; 
-                } else { 
-                    if (num !== '') {
-                        numPreparados.push(parseFloat(num));
-                        num = ''; 
-                    }
-                    numPreparados.push(digito); 
-                }
-            });
-        
-            if (num !== '') {
-                numPreparados.push(parseFloat(num)); 
-            }
-
             //Passa resultado para a saída da calculadora
             
-            let result = somaArrayExp(numPreparados);
+            console.log(preparaArrayExp(expressao));
+
+            let result = somaArrayExp(preparaArrayExp(expressao));
            
             resultado.innerHTML = result;
         }
     });
+}
+
+function preparaArrayExp(expressao){
+
+    //substitui as ',' por '.'
+    while(expressao.indexOf(",") != -1){
+        expressao = expressao.replace(",", ".");
+    }
+
+    //Prepara Array da expressão para que os cálculos possam ser realizados
+    
+    let numPreparados = [];
+
+    let arrayExp = expressao.split("");
+  
+    let num = ""; 
+
+    arrayExp.forEach(function (digito) {
+
+        if (!isNaN(digito) || digito === '.') { 
+            num += digito; 
+        } else { 
+            if (num !== '') {
+                numPreparados.push(parseFloat(num));
+                num = ''; 
+            }
+            numPreparados.push(digito); 
+        }
+    });
+
+    if (num !== '') {
+        numPreparados.push(parseFloat(num)); 
+    }
+    return numPreparados;
 }
 
 
@@ -175,15 +183,24 @@ function somaArrayExp(arrayExp){
 
             result = arrayExp[posicao -1] * arrayExp[posicao +1];
             arrayExp = refazArrayExp(arrayExp, posicao, result);
-            console.log(arrayExp);
         }
 
         while(arrayExp.indexOf("/") != -1){
             posicao = arrayExp.indexOf("/");
 
+            if(arrayExp[posicao +1] == 0){
+                return "Divisão por zero";
+            }
+
             result = arrayExp[posicao -1] / arrayExp[posicao +1];
+            arrayExp = refazArrayExp(arrayExp, posicao, result); 
+        }
+        
+        while(arrayExp.indexOf("-") != -1){
+            posicao = arrayExp.indexOf("-");
+
+            result = arrayExp[posicao -1] - arrayExp[posicao +1];
             arrayExp = refazArrayExp(arrayExp, posicao, result);
-            console.log(arrayExp);
         }
 
         while(arrayExp.indexOf("+") != -1){
@@ -192,19 +209,11 @@ function somaArrayExp(arrayExp){
 
             result = arrayExp[posicao -1] + arrayExp[posicao +1];
             arrayExp = refazArrayExp(arrayExp, posicao, result);
-            console.log(arrayExp);
         }
 
-        while(arrayExp.indexOf("-") != -1){
-            posicao = arrayExp.indexOf("-");
-
-            result = arrayExp[posicao -1] - arrayExp[posicao +1];
-            arrayExp = refazArrayExp(arrayExp, posicao, result);
-            console.log(arrayExp);
-        }
     }
 
-    return Math.round(arrayExp[0]);
+    return arrayExp[0]
 }
 
 

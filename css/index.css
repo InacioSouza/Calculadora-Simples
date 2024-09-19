@@ -26,6 +26,8 @@
     background-color: rgb(230, 132, 3);
     box-shadow: 1px 1px 5px black;
     border-radius: 15px ;
+
+    overflow-x: scroll;
 }
 
 #expressao{
