@@ -83,7 +83,7 @@
 }
 
 .operacoes{
-    background-color: red;
+    background-color: rgb(118, 24, 180);
     width: 400px;
     border-radius: 15px;
 }
@@ -100,6 +100,7 @@
 }
 
 #igual{
+    background-color: yellowgreen;
     text-shadow: 1px;
     margin-left: 20%;
     width: 80px;
@@ -107,6 +108,19 @@
     font-weight: bold;
 }
 
+#igual:active{
+    background-color: rgb(65, 94, 7);
+}
+
 #reset{
     width: 150px;
+    background-color: red;
+}
+
+#del-digito{
+    background-color: red;
+}
+
+#reset:active, #del-digito:active{
+    background-color: rgb(87, 6, 6);
 }

@@ -1,22 +1,19 @@
 window.onload = function exibeExpressao(){
-    numDigito();
+    digitosNumericos();
+    digitosOperacoes();
     delBtn();
-    operacaoDigito();
-    reset();
+    resetBtn();
     trataVirgula();
     realizaOperacao();
 }
 
 
 
-function numDigito(){
+function digitosNumericos(){
     const divNumDigitos = document.getElementById("numeros");
-
     const numBtns = divNumDigitos.children;
-
     const exibicao = document.getElementById("expressao");
 
-    //Botões numéricos configurados
     for(let i = 1; i < numBtns.length -2; i ++){
         numBtns[i].addEventListener("click", function(){
             exibicao.innerHTML += numBtns[i].innerHTML;
@@ -35,7 +32,7 @@ function delBtn(){
     });
 }
 
-function operacaoDigito(){
+function digitosOperacoes(){
     const operacao = document.getElementsByClassName("ops");
     const exibicao = document.getElementById("expressao");
 
@@ -57,7 +54,7 @@ function operacaoDigito(){
 }
 
 
-function reset(){
+function resetBtn(){
     const reset = document.getElementById("reset");
     const exibicao = document.getElementById("expressao");
     const resultado = document.getElementById("resultado");
@@ -74,7 +71,7 @@ function trataVirgula(){
     const exibicao = document.getElementById("expressao");
 
     virgulaBtn.addEventListener("click", function(){
-        let expressao = exibicao.innerHTML;
+        const expressao = exibicao.innerHTML;
         const ultimoDigito = expressao[expressao.length -1];
 
         if(expressao == ""){
@@ -115,8 +112,6 @@ function realizaOperacao(){
 
     igual.addEventListener("click", function(){
         let expressao = exibicao.innerHTML;
-
-        
         
         if(expressao != "" ){
 
@@ -125,10 +120,6 @@ function realizaOperacao(){
                 exibicao.innerHTML = "";
                 return;
             }
-
-            //Passa resultado para a saída da calculadora
-            
-            console.log(preparaArrayExp(expressao));
 
             let result = somaArrayExp(preparaArrayExp(expressao));
            
@@ -146,10 +137,8 @@ function preparaArrayExp(expressao){
 
     //Prepara Array da expressão para que os cálculos possam ser realizados
     
-    let numPreparados = [];
-
+    const numPreparados = [];
     let arrayExp = expressao.split("");
-  
     let num = ""; 
 
     arrayExp.forEach(function (digito) {
@@ -167,6 +156,16 @@ function preparaArrayExp(expressao){
 
     if (num !== '') {
         numPreparados.push(parseFloat(num)); 
+    }
+
+    let ultDigitoOp = numPreparados[numPreparados.length -1];
+    if( ultDigitoOp == "+" || ultDigitoOp == "-" || ultDigitoOp == "*" || ultDigitoOp == "/"){
+
+        if(ultDigitoOp == "+" || ultDigitoOp == "-"){
+            numPreparados.push(0);
+        }else{
+            numPreparados.push(1);
+        }
     }
     return numPreparados;
 }
@@ -195,7 +194,7 @@ function somaArrayExp(arrayExp){
             result = arrayExp[posicao -1] / arrayExp[posicao +1];
             arrayExp = refazArrayExp(arrayExp, posicao, result); 
         }
-        
+
         while(arrayExp.indexOf("-") != -1){
             posicao = arrayExp.indexOf("-");
 
@@ -218,7 +217,7 @@ function somaArrayExp(arrayExp){
 
 
 function refazArrayExp(arrayExp, indiceOp, valor){
-     let newArray =[];
+    const newArray =[];
 
     let indiceInicio = indiceOp -1;
     let indiceFim = indiceOp +1;
@@ -237,5 +236,4 @@ function refazArrayExp(arrayExp, indiceOp, valor){
     }
 
     return newArray;
-    
 }
